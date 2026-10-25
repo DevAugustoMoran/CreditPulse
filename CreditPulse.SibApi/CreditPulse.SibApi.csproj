@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    CP Analítica - API de la SIB (simulada) para Docker / Linux.
+
+    Hace lo mismo que CreditPulse.SibSimulador (el proyecto Web API 2 de
+    .NET Framework, que solo corre en Windows/IIS): GET /api/perfil?dpi=&nit=&nombre=
+    devuelve el XML del perfil crediticio. NO duplica la lógica: compila los
+    MISMOS archivos generadores del otro proyecto (ver los <Compile Include>
+    de abajo), así que ambos devuelven exactamente el mismo perfil para un DPI.
+    Existe para poder correr la "SIB" como un servicio HTTP independiente en un
+    contenedor (ver docker-compose.yml).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>CreditPulse.SibApi</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <NoWarn>$(NoWarn);CS8618</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CreditPulse.SibSimulador\Models\SibPerfilGenerator.cs" Link="Compartido\SibPerfilGenerator.cs" />
+    <Compile Include="..\CreditPulse.SibSimulador\Models\SibPerfilSimulado.cs" Link="Compartido\SibPerfilSimulado.cs" />
+  </ItemGroup>
+
+</Project>

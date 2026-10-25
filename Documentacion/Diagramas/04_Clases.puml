@@ -1,0 +1,151 @@
+@startuml Clases
+skinparam backgroundColor white
+skinparam class {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5FCD
+  ArrowColor #3A5FCD
+}
+hide empty members
+
+package "Models" {
+  class Usuario {
+    +UsuarioId : int
+    +Email : string
+    +PasswordHash : string
+    +PasswordSalt : string
+    +RolId : int
+    +Activo : bool
+  }
+  class Rol {
+    +RolId : int
+    +Nombre : string
+    +PuedeEvaluar : bool
+    +PuedeAdministrarCatalogo : bool
+    +PuedeAdministrarUsuarios : bool
+  }
+  class Producto {
+    +ProductoId : int
+    +Codigo : string
+    +Nombre : string
+    +RequiereIngresos : bool
+  }
+  class Politica {
+    +PoliticaId : int
+    +ProductoId : int
+    +TipoRegla : string
+    +ParametrosJson : string
+    +Orden : int
+  }
+  class Evaluacion {
+    +EvaluacionId : int
+    +ProductoId : int
+    +UsuarioId : int
+    +Dpi : string
+    +ResultadoGeneral : ResultadoSemaforo
+    +SibRawXml : xml
+  }
+  class EvaluacionPolitica {
+    +EvaluacionPoliticaId : int
+    +EvaluacionId : int
+    +PoliticaId : int
+    +Resultado : ResultadoSemaforo
+    +Detalle : string
+  }
+  class SibPerfil {
+    +ScoreBuro : int
+    +NivelEndeudamiento : decimal
+    +IngresosReportados : decimal
+    +EnListaNegra : bool
+  }
+  class Lote {
+    +LoteId : int
+    +Estado : string
+    +TotalRegistros : int
+    +TotalVerde : int
+  }
+  class LoteEvaluacion {
+    +LoteEvaluacionId : int
+    +LoteId : int
+    +EvaluacionId : int?
+    +Estado : string
+  }
+  enum ResultadoSemaforo {
+    VERDE
+    AMARILLO
+    ROJO
+  }
+}
+
+package "BLL (lógica de negocio)" {
+  class EvaluationService {
+    +EvaluarYGuardar(solicitud) : Evaluacion
+    +Validar(solicitud)
+    +{static} CrearSibService() : ISibService
+  }
+  class PolicyEngine {
+    +Evaluar(politica, contexto) : ResultadoPolitica
+    -EvaluarScoreBuroMinimo(...)
+    -EvaluarEndeudamientoMaximo(...)
+    -EvaluarRciBancario(...)
+    -EvaluarHistorialMoras(...)
+  }
+  interface ISibService {
+    +ConsultarPerfil(dpi, nit, nombre) : string
+  }
+  class SibMockService {
+    +ConsultarPerfil(...) : string
+  }
+  class SibApiClientService {
+    +ConsultarPerfil(...) : string
+  }
+  class SibXmlParser {
+    +{static} Parsear(xml) : SibPerfil
+  }
+  class BatchEvaluationService {
+    +ProcesarLoteAsync(archivo, usuarioId)
+  }
+  class VariablesScoreCalculator {
+    +{static} Calcular(evaluacion, sib, completos) : VariablesScoreApiResponse
+  }
+}
+
+package "Api (integración REST)" {
+  class EvaluacionesApiController {
+    +Post(request) : HttpResponseMessage
+    +Get(id) : HttpResponseMessage
+    +GetVariablesScore(id) : HttpResponseMessage
+  }
+  class SibApiController {
+    +GetPerfil(dpi, nit, nombre) : HttpResponseMessage
+  }
+  class ApiKeyAuthorizeAttribute {
+    +OnAuthorization(context)
+  }
+}
+
+EvaluationService --> ISibService : usa
+EvaluationService --> PolicyEngine : usa
+EvaluationService ..> SibXmlParser : usa
+EvaluationService --> Evaluacion : crea
+SibMockService ..|> ISibService
+SibApiClientService ..|> ISibService
+BatchEvaluationService --> EvaluationService : reutiliza\n(por cada fila)
+BatchEvaluationService --> Lote : crea/actualiza
+BatchEvaluationService --> LoteEvaluacion : crea
+
+Evaluacion "1" *-- "muchos" EvaluacionPolitica
+Evaluacion "1" --> "1" Producto
+Evaluacion "1" --> "1" Usuario
+Evaluacion -- ResultadoSemaforo
+EvaluacionPolitica --> Politica
+Politica "1" --* "1" Producto
+Usuario --> Rol
+Lote "1" *-- "muchos" LoteEvaluacion
+LoteEvaluacion --> Evaluacion : referencia (0..1)
+
+EvaluacionesApiController --> EvaluationService : usa
+EvaluacionesApiController --> VariablesScoreCalculator : usa
+SibApiController --> ISibService : usa
+EvaluacionesApiController .up.> ApiKeyAuthorizeAttribute : protegido por\n(filtro global)
+SibApiController .up.> ApiKeyAuthorizeAttribute : protegido por\n(filtro global)
+@enduml

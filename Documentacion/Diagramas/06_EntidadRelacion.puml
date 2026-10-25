@@ -1,0 +1,147 @@
+@startuml EntidadRelacion
+skinparam backgroundColor white
+skinparam entity {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5FCD
+}
+
+entity "Roles" as Roles {
+  * RolId : INT <<PK>>
+  --
+  Nombre : NVARCHAR(50)
+  Descripcion : NVARCHAR(200)
+  PuedeEvaluar : BIT
+  PuedeAdministrarCatalogo : BIT
+  PuedeAdministrarUsuarios : BIT
+  Activo : BIT
+}
+
+entity "Usuarios" as Usuarios {
+  * UsuarioId : INT <<PK>>
+  --
+  Email : NVARCHAR(150)
+  PasswordHash : NVARCHAR(200)
+  PasswordSalt : NVARCHAR(200)
+  NombreCompleto : NVARCHAR(200)
+  # RolId : INT <<FK>>
+  Activo : BIT
+  IntentosFallidos : INT
+  FechaCreacion : DATETIME2
+  UltimoLogin : DATETIME2
+}
+
+entity "Productos" as Productos {
+  * ProductoId : INT <<PK>>
+  --
+  Codigo : NVARCHAR(30)
+  Nombre : NVARCHAR(150)
+  Descripcion : NVARCHAR(400)
+  RequiereIngresos : BIT
+  RequiereTipoEmpleo : BIT
+  RequiereAntiguedadLaboral : BIT
+  Activo : BIT
+  FechaCreacion : DATETIME2
+}
+
+entity "Politicas" as Politicas {
+  * PoliticaId : INT <<PK>>
+  --
+  # ProductoId : INT <<FK>>
+  Codigo : NVARCHAR(40)
+  Nombre : NVARCHAR(150)
+  Descripcion : NVARCHAR(400)
+  TipoRegla : NVARCHAR(50)
+  ParametrosJson : NVARCHAR(500)
+  Orden : INT
+  Activo : BIT
+}
+
+entity "Evaluaciones" as Evaluaciones {
+  * EvaluacionId : INT <<PK>>
+  --
+  # ProductoId : INT <<FK>>
+  # UsuarioId : INT <<FK>>
+  PrimerNombre : NVARCHAR(100)
+  SegundoNombre : NVARCHAR(100)
+  PrimerApellido : NVARCHAR(100)
+  SegundoApellido : NVARCHAR(100)
+  Nit : NVARCHAR(20)
+  Dpi : NVARCHAR(20)
+  FechaNacimiento : DATE
+  IngresosMensuales : DECIMAL(12,2)
+  TipoEmpleo : NVARCHAR(150)
+  AntiguedadLaboralMeses : INT
+  ResultadoGeneral : NVARCHAR(10)
+  Estado : NVARCHAR(30)
+  SibRawXml : XML
+  SibScoreBuro : INT
+  SibNivelEndeudamiento : DECIMAL(5,2)
+  SibEnListaNegra : BIT
+  FechaCreacion : DATETIME2
+}
+
+entity "EvaluacionPoliticas" as EvaluacionPoliticas {
+  * EvaluacionPoliticaId : INT <<PK>>
+  --
+  # EvaluacionId : INT <<FK>>
+  # PoliticaId : INT <<FK, NULL>>
+  NombrePolitica : NVARCHAR(150)
+  Resultado : NVARCHAR(10)
+  Detalle : NVARCHAR(400)
+  Orden : INT
+}
+
+entity "Lotes" as Lotes {
+  * LoteId : INT <<PK>>
+  --
+  NombreArchivo : NVARCHAR(255)
+  # UsuarioId : INT <<FK>>
+  TotalRegistros : INT
+  TotalProcesados : INT
+  TotalVerde : INT
+  TotalAmarillo : INT
+  TotalRojo : INT
+  TotalErrores : INT
+  Estado : NVARCHAR(20)
+  MensajeError : NVARCHAR(400)
+  FechaCreacion : DATETIME2
+}
+
+entity "LoteEvaluaciones" as LoteEvaluaciones {
+  * LoteEvaluacionId : INT <<PK>>
+  --
+  # LoteId : INT <<FK>>
+  # EvaluacionId : INT <<FK, NULL>>
+  FilaExcel : INT
+  NombreCompletoOriginal : NVARCHAR(300)
+  NitOriginal : NVARCHAR(20)
+  DpiOriginal : NVARCHAR(20)
+  Estado : NVARCHAR(20)
+  MensajeError : NVARCHAR(400)
+}
+
+Roles ||--o{ Usuarios : "1 rol tiene\nmuchos usuarios"
+Productos ||--o{ Politicas : "1 producto tiene\nmuchas políticas"
+Productos ||--o{ Evaluaciones : "1 producto tiene\nmuchas evaluaciones"
+Usuarios ||--o{ Evaluaciones : "1 usuario registra\nmuchas evaluaciones"
+Evaluaciones ||--o{ EvaluacionPoliticas : "1 evaluación tiene\nvarios resultados de política"
+Politicas |o--o{ EvaluacionPoliticas : "1 política se usa en\nmuchos resultados"
+Usuarios ||--o{ Lotes : "1 usuario sube\nmuchos lotes"
+Lotes ||--o{ LoteEvaluaciones : "1 lote tiene\nmuchas filas"
+Evaluaciones |o--o{ LoteEvaluaciones : "1 evaluación puede\nvenir de una fila de lote"
+
+note bottom of EvaluacionPoliticas
+  PoliticaId es NULL si la política
+  fue eliminada del catálogo luego
+  de haberse usado (se conserva el
+  nombre como "foto" histórica en
+  NombrePolitica).
+end note
+
+note bottom of LoteEvaluaciones
+  EvaluacionId es NULL cuando la fila
+  del Excel falló validación antes de
+  poder evaluarse (se guarda igual,
+  con su mensaje de error).
+end note
+@enduml

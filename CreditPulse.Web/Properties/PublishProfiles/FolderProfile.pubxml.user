@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://go.microsoft.com/fwlink/?LinkID=208121. -->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\publicar\creditpulse</_PublishTargetUrl>
+    <History>True|2026-10-22T05:17:21.7393253Z||;True|2026-10-21T23:16:47.9062092-06:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="AccesoDenegado.aspx">
+      <publishTime>09/23/2026 23:05:20</publishTime>
+    </File>
+    <File Include="Administracion/PoliticaForm.aspx">
+      <publishTime>09/23/2026 22:57:25</publishTime>
+    </File>
+    <File Include="Administracion/Politicas.aspx">
+      <publishTime>10/21/2026 22:48:01</publishTime>
+    </File>
+    <File Include="Administracion/ProductoForm.aspx">
+      <publishTime>09/23/2026 22:56:37</publishTime>
+    </File>
+    <File Include="Administracion/Productos.aspx">
+      <publishTime>10/21/2026 22:48:01</publishTime>
+    </File>
+    <File Include="Administracion/Roles.aspx">
+      <publishTime>10/21/2026 22:48:01</publishTime>
+    </File>
+    <File Include="Administracion/RolForm.aspx">
+      <publishTime>09/24/2026 00:07:32</publishTime>
+    </File>
+    <File Include="Administracion/UsuarioForm.aspx">
+      <publishTime>09/24/2026 00:06:42</publishTime>
+    </File>
+    <File Include="Administracion/Usuarios.aspx">
+      <publishTime>10/21/2026 22:58:14</publishTime>
+    </File>
+    <File Include="bin/CreditPulse.Web.dll">
+      <publishTime>10/21/2026 23:16:47</publishTime>
+    </File>
+    <File Include="bin/CreditPulse.Web.pdb">
+      <publishTime>10/21/2026 23:16:47</publishTime>
+    </File>
+    <File Include="bin/ExcelDataReader.DataSet.dll">
+      <publishTime>05/01/2019 22:39:58</publishTime>
+    </File>
+    <File Include="bin/ExcelDataReader.DataSet.pdb">
+      <publishTime>05/01/2019 22:39:58</publishTime>
+    </File>
+    <File Include="bin/ExcelDataReader.dll">
+      <publishTime>05/01/2019 22:39:54</publishTime>
+    </File>
+    <File Include="bin/ExcelDataReader.pdb">
+      <publishTime>05/01/2019 22:39:54</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>03/08/2023 01:09:56</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>05/27/2022 17:41:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>05/27/2022 17:41:46</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>05/27/2022 17:41:54</publishTime>
+    </File>
+    <File Include="Content/cp-theme.js">
+      <publishTime>10/21/2026 22:40:12</publishTime>
+    </File>
+    <File Include="Content/img/apple-touch-icon.png">
+      <publishTime>10/21/2026 22:38:43</publishTime>
+    </File>
+    <File Include="Content/img/favicon-32.png">
+      <publishTime>10/21/2026 22:38:43</publishTime>
+    </File>
+    <File Include="Content/img/favicon-64.png">
+      <publishTime>10/21/2026 22:38:42</publishTime>
+    </File>
+    <File Include="Content/img/favicon.ico">
+      <publishTime>10/21/2026 22:38:43</publishTime>
+    </File>
+    <File Include="Content/img/logo-cp-analitica.jpg">
+      <publishTime>10/21/2026 22:38:42</publishTime>
+    </File>
+    <File Include="Content/img/logo-icono.jpg">
+      <publishTime>10/21/2026 22:58:24</publishTime>
+    </File>
+    <File Include="Content/img/logo-icono.png">
+      <publishTime>10/21/2026 22:38:42</publishTime>
+    </File>
+    <File Include="Content/Plantillas/PlantillaEvaluacionBatch.xlsx">
+      <publishTime>10/21/2026 22:34:34</publishTime>
+    </File>
+    <File Include="Content/site.css">
+      <publishTime>10/21/2026 22:58:19</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>10/21/2026 22:48:01</publishTime>
+    </File>
+    <File Include="Error.aspx">
+      <publishTime>10/21/2026 22:40:12</publishTime>
+    </File>
+    <File Include="Evaluacion/Batch.aspx">
+      <publishTime>10/21/2026 22:34:34</publishTime>
+    </File>
+    <File Include="Evaluacion/LoteResultado.aspx">
+      <publishTime>10/21/2026 22:48:01</publishTime>
+    </File>
+    <File Include="Evaluacion/Nueva.aspx">
+      <publishTime>10/21/2026 22:34:07</publishTime>
+    </File>
+    <File Include="Evaluacion/Resultado.aspx">
+      <publishTime>10/21/2026 22:48:01</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>09/23/2026 21:48:21</publishTime>
+    </File>
+    <File Include="Login.aspx">
+      <publishTime>10/21/2026 22:58:14</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>09/24/2026 22:59:41</publishTime>
+    </File>
+    <File Include="Reportes/ReporteBatch.aspx">
+      <publishTime>10/21/2026 23:01:19</publishTime>
+    </File>
+    <File Include="Reportes/ReporteEvaluaciones.aspx">
+      <publishTime>10/21/2026 23:01:19</publishTime>
+    </File>
+    <File Include="Site.Master">
+      <publishTime>10/21/2026 22:40:12</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>10/21/2026 22:46:20</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

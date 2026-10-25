@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{992AC81D-7B3A-4149-8E99-61E515BC6EEC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CreditPulse.Web</RootNamespace>
+    <AssemblyName>CreditPulse.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <MvcBuildViews>false</MvcBuildViews>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelDataReader">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\netstandard2.0\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\netstandard2.0\ExcelDataReader.DataSet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.9\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasePage.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AccesoDenegado.aspx.cs">
+      <DependentUpon>AccesoDenegado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AccesoDenegado.aspx.designer.cs">
+      <DependentUpon>AccesoDenegado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\Nueva.aspx.cs">
+      <DependentUpon>Nueva.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\Nueva.aspx.designer.cs">
+      <DependentUpon>Nueva.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\Resultado.aspx.cs">
+      <DependentUpon>Resultado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\Resultado.aspx.designer.cs">
+      <DependentUpon>Resultado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\Batch.aspx.cs">
+      <DependentUpon>Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\Batch.aspx.designer.cs">
+      <DependentUpon>Batch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\LoteResultado.aspx.cs">
+      <DependentUpon>LoteResultado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Evaluacion\LoteResultado.aspx.designer.cs">
+      <DependentUpon>LoteResultado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Productos.aspx.cs">
+      <DependentUpon>Productos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Productos.aspx.designer.cs">
+      <DependentUpon>Productos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\ProductoForm.aspx.cs">
+      <DependentUpon>ProductoForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\ProductoForm.aspx.designer.cs">
+      <DependentUpon>ProductoForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Politicas.aspx.cs">
+      <DependentUpon>Politicas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Politicas.aspx.designer.cs">
+      <DependentUpon>Politicas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\PoliticaForm.aspx.cs">
+      <DependentUpon>PoliticaForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\PoliticaForm.aspx.designer.cs">
+      <DependentUpon>PoliticaForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Usuarios.aspx.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Usuarios.aspx.designer.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\UsuarioForm.aspx.cs">
+      <DependentUpon>UsuarioForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\UsuarioForm.aspx.designer.cs">
+      <DependentUpon>UsuarioForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Roles.aspx.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\Roles.aspx.designer.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\RolForm.aspx.cs">
+      <DependentUpon>RolForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administracion\RolForm.aspx.designer.cs">
+      <DependentUpon>RolForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RolesDeSistema.cs" />
+    <Compile Include="Models\Permiso.cs" />
+    <Compile Include="Models\Rol.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Evaluacion.cs" />
+    <Compile Include="Models\NuevaEvaluacionRequest.cs" />
+    <Compile Include="Models\Politica.cs" />
+    <Compile Include="Models\Producto.cs" />
+    <Compile Include="Models\SibPerfil.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Lote.cs" />
+    <Compile Include="DAL\DbHelper.cs" />
+    <Compile Include="DAL\EvaluacionRepository.cs" />
+    <Compile Include="DAL\PoliticaRepository.cs" />
+    <Compile Include="DAL\ProductoRepository.cs" />
+    <Compile Include="DAL\UsuarioRepository.cs" />
+    <Compile Include="DAL\RolRepository.cs" />
+    <Compile Include="DAL\LoteRepository.cs" />
+    <Compile Include="BLL\AuthService.cs" />
+    <Compile Include="BLL\EvaluationContext.cs" />
+    <Compile Include="BLL\EvaluationService.cs" />
+    <Compile Include="BLL\PolicyEngine.cs" />
+    <Compile Include="BLL\SibMockService.cs" />
+    <Compile Include="BLL\SibApiClientService.cs" />
+    <Compile Include="Api\App_Start\WebApiConfig.cs" />
+    <Compile Include="Api\Filters\ApiKeyAuthorizeAttribute.cs" />
+    <Compile Include="Api\Models\EvaluacionApiModels.cs" />
+    <Compile Include="Api\Models\SibApiModels.cs" />
+    <Compile Include="Api\Models\ScoreApiModels.cs" />
+    <Compile Include="Api\Controllers\EvaluacionesApiController.cs" />
+    <Compile Include="Api\Controllers\SibApiController.cs" />
+    <Compile Include="BLL\SibXmlParser.cs" />
+    <Compile Include="BLL\BatchEvaluationService.cs" />
+    <Compile Include="BLL\AdminCatalogoService.cs" />
+    <Compile Include="BLL\AdminUsuariosService.cs" />
+    <Compile Include="Security\PasswordHasher.cs" />
+    <Compile Include="Security\SessionHelper.cs" />
+    <Compile Include="BLL\ZonaHoraria.cs" />
+    <Compile Include="BLL\DpiValidator.cs" />
+    <Compile Include="BLL\ReporteService.cs" />
+    <Compile Include="BLL\TokenService.cs" />
+    <Compile Include="DAL\ReporteRepository.cs" />
+    <Compile Include="DAL\RefreshTokenRepository.cs" />
+    <Compile Include="Models\Reportes.cs" />
+    <Compile Include="Security\JwtHelper.cs" />
+    <Compile Include="Api\Models\AuthApiModels.cs" />
+    <Compile Include="Api\Handlers\TokenAuthHandler.cs" />
+    <Compile Include="Reportes\ReporteEvaluaciones.aspx.cs">
+      <DependentUpon>ReporteEvaluaciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteEvaluaciones.aspx.designer.cs">
+      <DependentUpon>ReporteEvaluaciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteBatch.aspx.cs">
+      <DependentUpon>ReporteBatch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\ReporteBatch.aspx.designer.cs">
+      <DependentUpon>ReporteBatch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BLL\TablaReporte.cs" />
+    <Compile Include="BLL\ExportadorXlsx.cs" />
+    <Compile Include="BLL\ExportadorPdf.cs" />
+    <Compile Include="BLL\ExportacionReporte.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="packages.config" />
+    <Content Include="Content\site.css" />
+    <Content Include="Site.Master" />
+    <Content Include="Login.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Error.aspx" />
+    <Content Include="AccesoDenegado.aspx" />
+    <Content Include="Evaluacion\Nueva.aspx" />
+    <Content Include="Evaluacion\Resultado.aspx" />
+    <Content Include="Evaluacion\Batch.aspx" />
+    <Content Include="Evaluacion\LoteResultado.aspx" />
+    <Content Include="Content\Plantillas\PlantillaEvaluacionBatch.xlsx" />
+    <Content Include="Administracion\Productos.aspx" />
+    <Content Include="Administracion\ProductoForm.aspx" />
+    <Content Include="Administracion\Politicas.aspx" />
+    <Content Include="Administracion\PoliticaForm.aspx" />
+    <Content Include="Administracion\Usuarios.aspx" />
+    <Content Include="Administracion\UsuarioForm.aspx" />
+    <Content Include="Administracion\Roles.aspx" />
+    <Content Include="Administracion\RolForm.aspx" />
+    <Content Include="Reportes\ReporteEvaluaciones.aspx" />
+    <Content Include="Reportes\ReporteBatch.aspx" />
+    <Content Include="Content\cp-theme.js" />
+    <Content Include="Content\img\logo-cp-analitica.jpg" />
+    <Content Include="Content\img\logo-icono.png" />
+    <Content Include="Content\img\logo-icono.jpg" />
+    <Content Include="Content\img\favicon.ico" />
+    <Content Include="Content\img\favicon-32.png" />
+    <Content Include="Content\img\favicon-64.png" />
+    <Content Include="Content\img\apple-touch-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Database\01_CreateDatabase.sql" />
+    <None Include="..\Database\02_CreateTables.sql" />
+    <None Include="..\Database\03_StoredProcedures.sql" />
+    <None Include="..\Database\04_SeedData.sql" />
+    <None Include="..\Database\05_Batch.sql" />
+    <None Include="..\Database\06_Administracion.sql" />
+    <None Include="..\Database\07_Roles.sql" />
+    <None Include="..\Database\08_UsuariosRoles.sql" />
+    <None Include="..\Database\09_BatchAsincrono.sql" />
+    <None Include="..\Database\10_RciBancario.sql" />
+    <None Include="..\Database\11_ApiIntegraciones.sql" />
+    <None Include="..\Database\12_TercerNombre.sql" />
+    <None Include="..\Database\13_Reportes.sql" />
+    <None Include="..\Database\14_AuthTokens.sql" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>44300</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

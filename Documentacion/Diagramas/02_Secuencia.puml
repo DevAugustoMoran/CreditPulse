@@ -1,0 +1,64 @@
+@startuml Secuencia
+skinparam backgroundColor white
+skinparam sequenceMessageAlign center
+skinparam sequenceParticipant {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5FCD
+}
+
+actor "Analista de\nCrédito" as Analista
+participant "Nueva.aspx\n(WebForms)" as UI
+participant "EvaluationService" as Service
+participant "ISibService\n(Mock o HTTP real)" as Sib
+participant "SibXmlParser" as Parser
+participant "PolicyEngine" as Engine
+database "SQL Server\n(CreditPulseDB)" as DB
+
+Analista -> UI : Completa formulario\n(producto, DPI, ingresos, etc.)
+UI -> Service : EvaluarYGuardar(solicitud)
+activate Service
+
+Service -> Service : Validar(solicitud)
+alt datos inválidos
+  Service --> UI : ArgumentException
+  UI --> Analista : Muestra error de validación
+end
+
+Service -> DB : Obtener políticas activas\ndel producto (ordenadas)
+activate DB
+DB --> Service : Lista de Politicas
+deactivate DB
+
+Service -> Sib : ConsultarPerfil(dpi, nit, nombre)
+activate Sib
+Sib --> Service : XML crudo del perfil SIB
+deactivate Sib
+
+alt la SIB no responde
+  Service --> UI : InvalidOperationException\n(con InnerException)
+  UI --> Analista : Mensaje de error de conexión
+end
+
+Service -> Parser : Parsear(xmlCrudo)
+activate Parser
+Parser --> Service : SibPerfil (tipado)
+deactivate Parser
+
+loop por cada Politica activa
+  Service -> Engine : Evaluar(politica, contexto)
+  activate Engine
+  Engine --> Service : Resultado (Verde/Amarillo/Rojo) + detalle
+  deactivate Engine
+end
+
+Service -> Service : Calcular ResultadoGeneral\n(el peor color entre todas las políticas)
+
+Service -> DB : Guardar Evaluacion +\nEvaluacionPoliticas (por cada una)
+activate DB
+DB --> Service : EvaluacionId generado
+deactivate DB
+
+Service --> UI : Evaluacion completa
+deactivate Service
+UI --> Analista : Redirige a Resultado.aspx\n(semáforo + detalle)
+@enduml

@@ -1,0 +1,53 @@
+@startuml Componentes
+skinparam backgroundColor white
+skinparam component {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5FCD
+  ArrowColor #3A5FCD
+}
+skinparam databaseBackgroundColor #FFF3D6
+
+actor "Analista / Administrador\n(navegador web)" as Humano
+actor "Sistema externo\n(Postman / otro banco)" as Externo
+
+package "CreditPulse.Web  (ASP.NET, IIS / Somee)" {
+  [Páginas WebForms\n(Login, Nueva, Resultado,\nBatch, Administración)] as UI
+  [Api\n(Web API 2 - /api/v1/...)] as Api
+  [BLL\n(EvaluationService, PolicyEngine,\nBatchEvaluationService)] as BLL
+  [DAL\n(Repositories - ADO.NET +\nStored Procedures)] as DAL
+  [Security\n(PasswordHasher, SessionHelper)] as Sec
+}
+
+package "CreditPulse.SibSimulador  (opcional, servicio HTTP aparte)" {
+  [PerfilController\n(GET /api/perfil)] as SibSim
+}
+
+database "SQL Server Express 2022\n(CreditPulseDB)" as DB
+
+Humano --> UI : HTTPS
+Externo --> Api : HTTPS\n+ header X-Api-Key
+
+UI --> BLL
+Api --> BLL
+BLL --> DAL
+DAL --> DB : Stored Procedures
+UI --> Sec
+BLL ..> SibSim : HTTP/XML\n(solo si UsarSibMock=false)
+BLL ..> BLL : SibMockService\n(si UsarSibMock=true,\ntodo en el mismo proceso)
+
+note right of SibSim
+  Simula a la Superintendencia
+  de Bancos (SIB): no existe una
+  API pública oficial, así que
+  este servicio hace de "doble"
+  para desarrollo y pruebas.
+end note
+
+note bottom of Api
+  3 endpoints propios de
+  CreditPulse: evaluación
+  completa, datos SIB, y
+  variables de score. NO
+  tienen relación con SibSim.
+end note
+@enduml

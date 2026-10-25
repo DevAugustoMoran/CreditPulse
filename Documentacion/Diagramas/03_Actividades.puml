@@ -1,0 +1,59 @@
+@startuml Actividades
+skinparam backgroundColor white
+skinparam activity {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5FCD
+  DiamondBackgroundColor #FFF3D6
+  DiamondBorderColor #C9982B
+}
+
+|Analista de Crédito|
+start
+:Iniciar sesión;
+if (¿Evaluación individual\no carga masiva (batch)?) then (Individual)
+  :Completar formulario\ndel solicitante;
+  |Sistema (EvaluationService)|
+  :Validar datos obligatorios;
+  if (¿Datos válidos?) then (no)
+    |Analista de Crédito|
+    :Ver mensaje de error;
+    stop
+  else (sí)
+  endif
+  :Consultar perfil en la SIB\n(simulador o servicio real);
+  if (¿SIB respondió?) then (no)
+    |Analista de Crédito|
+    :Ver error de conexión;
+    stop
+  else (sí)
+  endif
+  :Ejecutar el motor de políticas\n(PolicyEngine) política por política;
+  :Calcular resultado general\n(Verde / Amarillo / Rojo);
+  :Guardar evaluación y\ndetalle de políticas evaluadas;
+  |Analista de Crédito|
+  :Ver resultado (semáforo,\ndetalle por política, datos SIB);
+  stop
+else (Carga masiva)
+  :Subir archivo Excel (.xlsx)\ncon la plantilla del sistema;
+  |Sistema (BatchEvaluationService)|
+  :Crear registro de Lote\ny responder de inmediato\n(procesamiento en 2do plano);
+  |Analista de Crédito|
+  :Ver pantalla de progreso\nen vivo del lote;
+  |Sistema (BatchEvaluationService)|
+  fork
+    :Leer fila del Excel;
+    if (¿Fila válida?) then (no)
+      :Registrar fila como\n"Error" con su motivo;
+    else (sí)
+      :Ejecutar la misma evaluación\nindividual para esta fila;
+      :Registrar fila como\n"Evaluado" con su resultado;
+    endif
+  fork again
+    :(se repite para cada\nfila del archivo, en\nlotes vía TVP masivo);
+  end fork
+  :Actualizar totales del lote\n(Verde/Amarillo/Rojo/Errores);
+  |Analista de Crédito|
+  :Consultar reporte final del lote;
+  stop
+endif
+@enduml

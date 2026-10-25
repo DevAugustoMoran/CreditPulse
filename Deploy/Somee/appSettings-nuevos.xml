@@ -1,0 +1,18 @@
+<!--
+  appSettings NUEVOS de CP Analítica para el Web.config de SOMEE.
+  Pégalos DENTRO de <appSettings> ... </appSettings> del Web.config que ya
+  tienes en Somee (no reemplaces ese archivo: tiene tu connection string).
+
+  IMPORTANTE: cambia JwtSecret por un valor propio de Somee, mínimo 32
+  caracteres, secreto. Puedes generar uno en PowerShell con:
+    [Convert]::ToBase64String((1..48 | % { Get-Random -Maximum 256 }) -as [byte[]])
+  Si una clave ya existe en tu Web.config de Somee, no la repitas.
+-->
+<add key="ZonaHorariaId" value="Central America Standard Time" />
+<add key="DpiValidarDigitoVerificador" value="true" />
+<add key="JwtSecret" value="PEGA-AQUI-UN-SECRETO-LARGO-Y-UNICO-DE-AL-MENOS-32-CARACTERES" />
+<add key="JwtIssuer" value="cp-analitica" />
+<add key="JwtAudience" value="cp-analitica-api" />
+<add key="JwtAccessMinutes" value="15" />
+<add key="JwtRefreshDays" value="7" />
+<add key="SibApiKey" value="" />

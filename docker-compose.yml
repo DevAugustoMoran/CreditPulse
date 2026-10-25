@@ -1,0 +1,77 @@
+# ==========================================================================
+#  CP Analítica (CreditPulse) - Entorno local con Docker
+# ==========================================================================
+#  Levanta, con UN solo comando:
+#    * db       : SQL Server 2022 Express (la base de datos local).
+#    * db-init  : crea la base CreditPulseDB ejecutando, en orden, todos los
+#                 scripts de la carpeta Database/ (01..14) y crea el usuario
+#                 de la aplicación (cp_app). Solo actúa la primera vez.
+#    * sib-api  : API que simula a la SIB y devuelve su información por HTTP
+#                 (proyecto CreditPulse.SibApi).
+#
+#  Uso:
+#    docker compose up -d --build
+#    docker compose logs -f db-init        # ver la creación de la base
+#    docker compose down                   # apagar (los datos se conservan)
+#    docker compose down -v                # apagar Y borrar la base de datos
+#
+#  La aplicación web (ASP.NET WebForms, .NET Framework 4.8) corre en Windows
+#  con Visual Studio / IIS Express y se conecta a este SQL Server por
+#  localhost,1433 (ver el connection string de CreditPulse.Web/Web.config).
+#  Las contraseñas de abajo son SOLO para desarrollo local: se pueden
+#  cambiar con un archivo .env (ver .env.example).
+# ==========================================================================
+name: cp-analitica
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: cp-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Express
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Sa_CreditPulse_2026}
+    ports:
+      - "${MSSQL_PORT:-1433}:1433"
+    volumes:
+      - cp_sqldata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" -b -o /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: cp-db-init
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Sa_CreditPulse_2026}
+      CP_APP_PASSWORD: ${CP_APP_PASSWORD:-Cp_App_2026_Local}
+      DB_HOST: db
+      FORCE_INIT: ${FORCE_INIT:-0}
+    volumes:
+      - ./Database:/scripts:ro
+      - ./Docker:/init:ro
+    entrypoint: ["/bin/bash", "/init/db-init.sh"]
+    restart: "no"
+
+  sib-api:
+    build:
+      context: .
+      dockerfile: CreditPulse.SibApi/Dockerfile
+    container_name: cp-sib-api
+    environment:
+      # Vacío = sin llave. Si se define, la aplicación debe enviar el mismo
+      # valor en el appSetting "SibApiKey" de Web.config (header X-Api-Key).
+      SIB_API_KEY: ${SIB_API_KEY:-}
+    ports:
+      - "${SIB_API_PORT:-5080}:8080"
+    restart: unless-stopped
+
+volumes:
+  cp_sqldata:

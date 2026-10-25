@@ -1,0 +1,74 @@
+@startuml CasosDeUso
+skinparam backgroundColor white
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #F5F8FF
+  BorderColor #3A5FCD
+  ArrowColor #3A5FCD
+}
+skinparam packageStyle rectangle
+left to right direction
+
+actor "Administrador" as Admin
+actor "Analista de Crédito" as Analista
+actor "Usuario de Consulta" as Consulta
+actor "Sistema Externo\n(vía API + llave)" as Externo
+
+rectangle "CreditPulse" {
+  usecase "Iniciar sesión" as UC01
+  usecase "Cerrar sesión" as UC02
+
+  usecase "Crear evaluación\ncrediticia individual" as UC03
+  usecase "Consultar información\nde la SIB" as UC03b
+  usecase "Consultar resultado\nde una evaluación" as UC04
+
+  usecase "Cargar lote de\nevaluaciones (Excel)" as UC05
+  usecase "Consultar progreso\ny resultado de un lote" as UC06
+
+  usecase "Gestionar productos\ny políticas de crédito" as UC07
+  usecase "Gestionar usuarios" as UC08
+  usecase "Gestionar roles y\npermisos" as UC09
+
+  usecase "Solicitar evaluación\ncrediticia (API)" as UC10
+  usecase "Consultar datos SIB\ndel cliente (API)" as UC11
+  usecase "Consultar variables\nponderadas de score (API)" as UC12
+}
+
+Admin --> UC01
+Analista --> UC01
+Consulta --> UC01
+UC01 <-- UC02 : <<precede>>
+
+Analista --> UC03
+UC03 .> UC03b : <<include>>
+Analista --> UC04
+Analista --> UC05
+UC05 .> UC03 : <<include>>
+Analista --> UC06
+
+Consulta --> UC04
+Consulta --> UC06
+
+Admin --> UC07
+Admin --> UC08
+Admin --> UC09
+
+Externo --> UC10
+Externo --> UC11
+Externo --> UC12
+UC10 .> UC03b : <<include>>
+
+note bottom of UC09
+  Los permisos son banderas
+  (PuedeEvaluar, PuedeAdministrarCatalogo,
+  PuedeAdministrarUsuarios), no nombres de
+  rol fijos: un rol nuevo creado aquí tiene
+  acceso funcional real de inmediato.
+end note
+
+note bottom of UC10
+  Autenticación por header
+  X-Api-Key (no requiere
+  inicio de sesión de usuario).
+end note
+@enduml
